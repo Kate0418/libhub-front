@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import { Props as ReactSelectProps, StylesConfig } from "react-select"; //ライブラリ
 const ReactSelect = dynamic(() => import("react-select"), { ssr: false });
+const ReactCreatable = dynamic(() => import("react-select/creatable"), { ssr: false });
 
 export interface SelectItem {
   value: string;
@@ -11,6 +12,7 @@ export interface SelectProps<IsMulti extends boolean = false>
   extends Omit<ReactSelectProps, "onChange"> {
   isMulti?: IsMulti;
   isHidden?: boolean;
+  isCreatable?: boolean;
   onChange?: (e: IsMulti extends true ? SelectItem[] : SelectItem) => void;
 }
 
@@ -63,17 +65,35 @@ export function Select<IsMulti extends boolean = false>(
   };
 
   return (
-    <ReactSelect
-      isClearable={true}
-      className={`relative ${props.className}`}
-      options={props.options}
-      isMulti={props.isMulti}
-      maxMenuHeight={120}
-      styles={customStyles}
-      value={props.value}
-      onChange={handleChange}
-      placeholder={props.placeholder || "選択なし"}
-      menuPlacement="auto"
-    />
+    <>
+      {props.isClearable ? (
+        <ReactCreatable
+          isClearable={true}
+          className={`relative ${props.className}`}
+          options={props.options}
+          isMulti={props.isMulti}
+          maxMenuHeight={120}
+          styles={customStyles}
+          value={props.value}
+          onChange={handleChange}
+          placeholder={props.placeholder || "選択なし"}
+          menuPlacement="auto"
+          formatCreateLabel={(inputValue) => inputValue}
+        />
+      ) : (
+        <ReactSelect
+          isClearable={true}
+          className={`relative ${props.className}`}
+          options={props.options}
+          isMulti={props.isMulti}
+          maxMenuHeight={120}
+          styles={customStyles}
+          value={props.value}
+          onChange={handleChange}
+          placeholder={props.placeholder || "選択なし"}
+          menuPlacement="auto"
+        />
+      )}
+    </>
   );
 }

@@ -86,6 +86,7 @@ export default function Page() {
                 }
               }}
               value={null}
+              isClearable={true}
             />
           </div>
           <div className="flex flex-col gap-4">
@@ -96,7 +97,7 @@ export default function Page() {
                   onClick={() =>
                     setImage((image) => ({
                       ...image,
-                      tags: image.tags.filter((item) => item !== tag),
+                      tags: image.tags.filter((_, i) => i !== index),
                     }))
                   }
                 >
