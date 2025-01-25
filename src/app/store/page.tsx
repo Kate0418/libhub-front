@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 
 export default function Page() {
   const router = useRouter();
+  const [canSubmit, setCanSubmit] = useState(true);
 
   const [image, setImage] = useState<ImageStoreProps["image"]>({
     file: null,
@@ -28,11 +29,14 @@ export default function Page() {
   }, []);
 
   const storeApi = async () => {
+    if (!canSubmit) return;
+    setCanSubmit(false);
     const response = await ImageStore({ image });
     alert(response.messages[0]);
     if (response.success) {
       router.push("/");
     }
+    setCanSubmit(true);
   };
 
   return (
@@ -114,6 +118,7 @@ export default function Page() {
         <button
             className="bg-white text-black font-bold px-8 py-2 rounded-lg mt-8 ring-white hover:bg-black hover:ring-2 hover:text-white transition duration-700"
             onClick={() => storeApi()}
+            disabled={!canSubmit}
         >
           追加
         </button>
