@@ -17,7 +17,7 @@ export async function LibraryStore({
   image,
 }: LibraryStoreProps): Promise<LibraryStoreResponse> {
   const api_url = `${process.env.NEXT_PUBLIC_API_URL}/library`;
-  const token = Cookies.get("AuthToken");
+  const token = Cookies.get("authToken");
 
   return await axios
     .post<LibraryStoreResponse>(

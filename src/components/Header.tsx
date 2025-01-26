@@ -4,21 +4,24 @@ import { TagSelect } from "@/api/TagSelect";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { Select, SelectItem } from "@/components/Select";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useSearchTags } from "@/SearchTagsProvider";
+import { LibraryTags } from "@/api/LibraryTags";
 
 export function Header() {
   const router = useRouter();
+  const isLibraryPage = usePathname().startsWith("/library");
   const { searchTags, setSearchTags } = useSearchTags();
 
   const [allTags, setAllTags] = useState<SelectItem[]>([]);
   useEffect(() => {
     const selectApi = async () => {
-      const response = await TagSelect();
-      setAllTags(response.tags);
-    };
-
-    selectApi();
+        const response = isLibraryPage
+            ? await LibraryTags()
+            : await TagSelect();
+        setAllTags(response.tags);
+      };
+      selectApi();
   }, []);
 
   return (
@@ -32,7 +35,9 @@ export function Header() {
             placeholder="検索"
             onChange={(e: SelectItem[]) => {
               setSearchTags(e.map((item) => item.value));
-              router.push("/");
+              if (!isLibraryPage) {
+                router.push("/");
+              }
             }}
             isMulti={true}
             value={allTags.filter((item) => searchTags.includes(item.value))}

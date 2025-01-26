@@ -7,6 +7,7 @@ import { TagSelect } from "@/api/TagSelect";
 import { CloseIcon } from "./icons/CloseIcon";
 import Cookies from "js-cookie";
 import { LibraryStore } from "@/api/LibraryStore";
+import  { useRouter } from "next/navigation";
 
 export interface AddLibraryModalProps {
   selectedImage: ImageIndexResponse["images"][number];
@@ -41,6 +42,8 @@ export function AddLibraryModal({
       setIsOpenModal(false);
     }
   }
+  const authToken = Cookies.get("authToken");
+  const router = useRouter();
 
   return (
     <Modal onClese={() => setIsOpenModal(false)}>
@@ -100,7 +103,13 @@ export function AddLibraryModal({
         <div className="flex justify-center">
           <button
             className="bg-white text-black font-bold px-8 py-2 rounded-lg mt-8 ring-white hover:bg-black hover:ring-2 hover:text-white transition duration-700"
-            onClick={() => storeApi()}
+            onClick={() => {
+              if (!authToken) {
+                router.push("/login");
+              } else {
+                storeApi()
+              }
+            }}
           >
             マイラリブラリに追加
           </button>

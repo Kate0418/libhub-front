@@ -17,7 +17,7 @@ export async function ImageStore({
   image,
 }: ImageStoreProps): Promise<ImageStoreResponse> {
   const api_url = `${process.env.NEXT_PUBLIC_API_URL}/image`;
-  const token = Cookies.get("AuthToken");
+  const token = Cookies.get("authToken");
 
   const formData = new FormData();
   if (image.file) {
