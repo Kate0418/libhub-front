@@ -19,18 +19,25 @@ export async function LibraryIndex({
   loadingCount,
   searchTags,
 }: LibraryIndexProps): Promise<LibraryIndexResponse> {
-  const api_url = `${process.env.NEXT_PUBLIC_API_URL}/library`;
-  const token = Cookies.get("authToken");
+  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/library`;
+  const authToken = Cookies.get("authToken");
 
   return await axios
-    .get<LibraryIndexResponse>(api_url, {
+    .get<LibraryIndexResponse>(apiUrl, {
       params: {
         loadingCount,
         searchTags: searchTags,
       },
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${authToken}`,
       }
     })
-    .then((response) => response.data);
+    .then((response) => response.data)
+    .catch((error) => {
+      console.warn(error);
+      return {
+        success: false,
+        images: [],
+      };
+    });
 }

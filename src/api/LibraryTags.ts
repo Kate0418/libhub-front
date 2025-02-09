@@ -8,13 +8,13 @@ export interface LibraryTagsResponse {
 }
 
 export async function LibraryTags(): Promise<LibraryTagsResponse> {
-  const api_url = `${process.env.NEXT_PUBLIC_API_URL}/library/tags`;
-  const token = Cookies.get("authToken");
+  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/library/tags`;
+  const authToken = Cookies.get("authToken");
 
   try {
-    const response = await axios.get<LibraryTagsResponse>(api_url, {
+    const response = await axios.get<LibraryTagsResponse>(apiUrl, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${authToken}`,
       },
     });
     return response.data;

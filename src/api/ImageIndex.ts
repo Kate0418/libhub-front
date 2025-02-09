@@ -18,10 +18,10 @@ export async function ImageIndex({
   loadingCount,
   searchTags,
 }: ImageIndexProps): Promise<ImageIndexResponse> {
-  const api_url = `${process.env.NEXT_PUBLIC_API_URL}/image`;
+  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/image`;
 
   return await axios
-    .get<ImageIndexResponse>(api_url, {
+    .get<ImageIndexResponse>(apiUrl, {
       params: {
         loadingCount,
         searchTags: searchTags,

@@ -2,7 +2,25 @@
 @tailwind components;
 @tailwind utilities;
 
+
+* {
+  scrollbar-color: white black
+}
+
 body {
-  background-color: black;
-  color: white;
+  @apply bg-black text-white;
+}
+
+input, button {
+  @apply outline-none;
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE, Edge */
+    scrollbar-width: none; /* Firefox */
+  }
 }

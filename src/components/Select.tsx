@@ -34,8 +34,8 @@ const customStyles: StylesConfig = {
   // 他のスタイル設定は同じ
   option: (provided, state) => ({
     ...provided,
-    color: "black",
-    backgroundColor: state.isFocused ? "gray" : undefined,
+    color: state.isFocused ? "white" : "black",
+    backgroundColor: state.isFocused ? "black" : undefined,
   }),
   menu: (provided) => ({
     ...provided,

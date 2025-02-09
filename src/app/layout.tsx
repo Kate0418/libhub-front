@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { SearchTagsProvider } from "@/SearchTagsProvider";
 import { Header } from "@/components/Header";
+import Main from "@/components/Main";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -27,12 +28,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex justify-center`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex justify-center overflow-hidden`}
       >
-        <div className="pb-8 w-[1000px]">
+        <div className="pb-8">
           <SearchTagsProvider>
-            <Header />
-            {children}
+            <Main>
+              <Header />
+              {children}
+            </Main>
           </SearchTagsProvider>
         </div>
       </body>

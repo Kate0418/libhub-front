@@ -17,11 +17,11 @@ export interface AuthLoginErrorResponse {
 export async function AuthLogin({
   email, password,
 }: AuthLoginProps): Promise<AuthLoginSuccessResponse | AuthLoginErrorResponse> {
-  const api_url = `${process.env.NEXT_PUBLIC_API_URL}/auth/login`;
+  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/auth/login`;
 
   return await axios
     .post<AuthLoginSuccessResponse | AuthLoginErrorResponse>(
-      api_url,
+      apiUrl,
       {
         email: email,
         password: password,

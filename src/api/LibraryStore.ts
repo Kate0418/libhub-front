@@ -16,18 +16,18 @@ export interface LibraryStoreResponse {
 export async function LibraryStore({
   image,
 }: LibraryStoreProps): Promise<LibraryStoreResponse> {
-  const api_url = `${process.env.NEXT_PUBLIC_API_URL}/library`;
-  const token = Cookies.get("authToken");
+  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/library`;
+  const authToken = Cookies.get("authToken");
 
   return await axios
     .post<LibraryStoreResponse>(
-      api_url,
+      apiUrl,
       {
         image: image,
       },
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${authToken}`,
         },
       }
     )

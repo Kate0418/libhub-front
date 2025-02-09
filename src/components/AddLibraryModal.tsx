@@ -49,6 +49,7 @@ export function AddLibraryModal({
     <Modal onClese={() => setIsOpenModal(false)}>
       <div className="w-[800px] h-[500px] bg-black rounded-xl grid grid-cols-2 gap-4 p-4 overflow-auto">
         <Image
+          unoptimized={true}
           className="!w-full !h-auto rounded-lg"
           src={selectedImage?.url ?? ""}
           alt={selectedImage?.tags.join(", ") ?? ""}
@@ -81,7 +82,7 @@ export function AddLibraryModal({
             {selectedImage?.tags.map((tag, index) => (
               <div key={index} className="flex items-center gap-2">
                 <button
-                  className="bg-white w-8 h-8 flex justify-center items-center rounded-full"
+                  className="bg-white text-black w-8 h-8 flex justify-center items-center rounded-full"
                   onClick={() =>{
                     setSelectedImage((image) => {
                       if (!image) return image;
@@ -94,7 +95,7 @@ export function AddLibraryModal({
                 >
                   <CloseIcon />
                 </button>
-                <div className="font-bold">{tag}</div>
+                <div className="font-bold overflow-x-auto max-w-[300px] no-scrollbar">{tag}</div>
               </div>
             ))}
           </div>

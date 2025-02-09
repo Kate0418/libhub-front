@@ -34,13 +34,13 @@ export default function Page() {
     const response = await ImageStore({ image });
     alert(response.messages[0]);
     if (response.success) {
-      router.push("/");
+      router.push("/library");
     }
     setCanSubmit(true);
   };
 
   return (
-    <div className="flex flex-col items-end">
+    <div className="flex flex-col items-end pt-16 overflow-y-auto max-h-screen no-scrollbar">
       <div className="pt-16 flex justify-center gap-8">
         <div>
           <input
@@ -82,7 +82,7 @@ export default function Page() {
               )}
               placeholder="タグ選択（5つまで）"
               onChange={(e: SelectItem) => {
-                if (image.tags.length < 5) {
+                if (image.tags.length < 5 && e?.value) {
                   setImage((image) => ({
                     ...image,
                     tags: [...image.tags, e.value],
@@ -97,7 +97,7 @@ export default function Page() {
             {image.tags.map((tag, index) => (
               <div key={index} className="flex items-center gap-2">
                 <button
-                  className="bg-white w-8 h-8 flex justify-center items-center rounded-full"
+                  className="bg-white text-black w-8 h-8 flex justify-center items-center rounded-full"
                   onClick={() =>
                     setImage((image) => ({
                       ...image,
@@ -107,21 +107,22 @@ export default function Page() {
                 >
                   <CloseIcon />
                 </button>
-                <div className="font-bold">{tag}</div>
+                <div className="font-bold overflow-x-auto w-[400px] no-scrollbar">
+                  {tag}
+                </div>
               </div>
             ))}
           </div>
+          <div className="pr-8 flex justify-end">
+            <button
+              className="bg-white text-black font-bold px-8 py-2 rounded-lg mt-8 ring-white hover:bg-black hover:ring-2 hover:text-white transition duration-700"
+              onClick={() => storeApi()}
+              disabled={!canSubmit}
+            >
+              追加
+            </button>
+          </div>
         </div>
-      </div>
-
-      <div className="pr-8">
-        <button
-            className="bg-white text-black font-bold px-8 py-2 rounded-lg mt-8 ring-white hover:bg-black hover:ring-2 hover:text-white transition duration-700"
-            onClick={() => storeApi()}
-            disabled={!canSubmit}
-        >
-          追加
-        </button>
       </div>
     </div>
   );

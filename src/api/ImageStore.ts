@@ -16,8 +16,8 @@ export interface ImageStoreResponse {
 export async function ImageStore({
   image,
 }: ImageStoreProps): Promise<ImageStoreResponse> {
-  const api_url = `${process.env.NEXT_PUBLIC_API_URL}/image`;
-  const token = Cookies.get("authToken");
+  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/image`;
+  const authToken = Cookies.get("authToken");
 
   const formData = new FormData();
   if (image.file) {
@@ -26,7 +26,7 @@ export async function ImageStore({
 
   return await axios
     .post<ImageStoreResponse>(
-      api_url,
+      apiUrl,
       {
         image: {
           ...image,
@@ -35,7 +35,7 @@ export async function ImageStore({
       },
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${authToken}`,
           "Content-Type": "multipart/form-data",
         },
       }

@@ -7,10 +7,10 @@ export interface TagSelectResponse {
 }
 
 export async function TagSelect(): Promise<TagSelectResponse> {
-  const api_url = `${process.env.NEXT_PUBLIC_API_URL}/tag/select`;
+  const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/tag/select`;
 
   try {
-    const response = await axios.get<TagSelectResponse>(api_url);
+    const response = await axios.get<TagSelectResponse>(apiUrl);
     return response.data;
   } catch (e) {
     console.warn(e);
