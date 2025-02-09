@@ -2,6 +2,7 @@
 
 import { ImageStore, ImageStoreProps } from "@/api/ImageStore";
 import { TagSelect } from "@/api/TagSelect";
+import { Button } from "@/components/Button";
 import { CloseIcon } from "@/components/icons/CloseIcon";
 import { UploadFileIcon } from "@/components/icons/UploadFileIcon";
 import { Select, SelectItem } from "@/components/Select";
@@ -40,7 +41,7 @@ export default function Page() {
   };
 
   return (
-    <div className="flex flex-col items-end pt-16 overflow-y-auto max-h-screen no-scrollbar">
+    <div className="flex flex-col items-end overflow-y-auto max-h-screen no-scrollbar">
       <div className="pt-16 flex justify-center gap-8">
         <div>
           <input
@@ -114,13 +115,13 @@ export default function Page() {
             ))}
           </div>
           <div className="pr-8 flex justify-end">
-            <button
+            <Button
               className="bg-white text-black font-bold px-8 py-2 rounded-lg mt-8 ring-white hover:bg-black hover:ring-2 hover:text-white transition duration-700"
               onClick={() => storeApi()}
               disabled={!canSubmit}
             >
               追加
-            </button>
+            </Button>
           </div>
         </div>
       </div>

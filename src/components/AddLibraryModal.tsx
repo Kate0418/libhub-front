@@ -7,11 +7,14 @@ import { TagSelect } from "@/api/TagSelect";
 import { CloseIcon } from "./icons/CloseIcon";
 import Cookies from "js-cookie";
 import { LibraryStore } from "@/api/LibraryStore";
-import  { useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { Button } from "./Button";
 
 export interface AddLibraryModalProps {
   selectedImage: ImageIndexResponse["images"][number];
-  setSelectedImage: React.Dispatch<React.SetStateAction<ImageIndexResponse["images"][number] | null>>;
+  setSelectedImage: React.Dispatch<
+    React.SetStateAction<ImageIndexResponse["images"][number] | null>
+  >;
   setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -41,7 +44,7 @@ export function AddLibraryModal({
     if (response.success) {
       setIsOpenModal(false);
     }
-  }
+  };
   const authToken = Cookies.get("authToken");
   const router = useRouter();
 
@@ -57,64 +60,67 @@ export function AddLibraryModal({
           height={100}
         />
         <div>
-        <div className="flex flex-col gap-6 h-72">
-          <div className="border-2 border-white w-full rounded-lg px-2">
-            <Select
-              options={allTags.filter(
-                (item) => !selectedImage?.tags.includes(item.value)
-              )}
-              placeholder="タグ編集（5つまで）"
-              onChange={(e: SelectItem) => {
-                if (selectedImage.tags.length < 5) {
-                  setSelectedImage((image) => {
-                    if (!image) return image;
-                    return ({
-                    ...image,
-                    tags: [...image.tags, e.value],
-                  })});
-                }
-              }}
-              value={null}
-              isClearable={true}
-            />
-          </div>
-          <div className="flex flex-col gap-4">
-            {selectedImage?.tags.map((tag, index) => (
-              <div key={index} className="flex items-center gap-2">
-                <button
-                  className="bg-white text-black w-8 h-8 flex justify-center items-center rounded-full"
-                  onClick={() =>{
+          <div className="flex flex-col gap-6 h-72">
+            <div className="border-2 border-white w-full rounded-lg px-2">
+              <Select
+                options={allTags.filter(
+                  (item) => !selectedImage?.tags.includes(item.value)
+                )}
+                placeholder="タグ編集（5つまで）"
+                onChange={(e: SelectItem) => {
+                  if (selectedImage.tags.length < 5) {
                     setSelectedImage((image) => {
                       if (!image) return image;
-                      return ({
-                      ...image,
-                      tags: image.tags.filter((_, i) => i !== index),
+                      return {
+                        ...image,
+                        tags: [...image.tags, e.value],
+                      };
+                    });
+                  }
+                }}
+                value={null}
+                isClearable={true}
+              />
+            </div>
+            <div className="flex flex-col gap-4">
+              {selectedImage?.tags.map((tag, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <button
+                    className="bg-white text-black w-8 h-8 flex justify-center items-center rounded-full"
+                    onClick={() => {
+                      setSelectedImage((image) => {
+                        if (!image) return image;
+                        return {
+                          ...image,
+                          tags: image.tags.filter((_, i) => i !== index),
+                        };
                       });
-                    })
-                  }}
-                >
-                  <CloseIcon />
-                </button>
-                <div className="font-bold overflow-x-auto max-w-[300px] no-scrollbar">{tag}</div>
-              </div>
-            ))}
+                    }}
+                  >
+                    <CloseIcon />
+                  </button>
+                  <div className="font-bold overflow-x-auto max-w-[300px] no-scrollbar">
+                    {tag}
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-        
-        <div className="flex justify-center">
-          <button
-            className="bg-white text-black font-bold px-8 py-2 rounded-lg mt-8 ring-white hover:bg-black hover:ring-2 hover:text-white transition duration-700"
-            onClick={() => {
-              if (!authToken) {
-                router.push("/login");
-              } else {
-                storeApi()
-              }
-            }}
-          >
-            マイラリブラリに追加
-          </button>
-        </div>
+
+          <div className="flex justify-center">
+            <Button
+              className="bg-white text-black font-bold px-8 py-2 rounded-lg mt-8 ring-white hover:bg-black hover:ring-2 hover:text-white transition duration-700"
+              onClick={() => {
+                if (!authToken) {
+                  router.push("/login");
+                } else {
+                  storeApi();
+                }
+              }}
+            >
+              マイラリブラリに追加
+            </Button>
+          </div>
         </div>
       </div>
     </Modal>

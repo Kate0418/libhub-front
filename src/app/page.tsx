@@ -1,9 +1,12 @@
 "use client";
 
 import { ImageIndex, ImageIndexResponse } from "@/api/ImageIndex";
+import {
+  TransitionIndex,
+  TransitionIndexResponse,
+} from "@/api/TransitionIndex";
+import { TransitionStore } from "@/api/TransitionStore";
 import { AddLibraryModal } from "@/components/AddLibraryModal";
-import { Button } from "@/components/Button";
-import { BookMarkHeartIcon } from "@/components/icons/BookMarkHeartIcon";
 import { CloseIcon } from "@/components/icons/CloseIcon";
 import { NavigateButtons } from "@/components/NavigateButtons";
 import { useSearchTags } from "@/SearchTagsProvider";
@@ -19,6 +22,9 @@ export default function Page() {
   const [selectedImage, setSelectedImage] = useState<
     ImageIndexResponse["images"][number] | null
   >(null);
+  const [transitionImage, setTransitionImage] = useState<
+    TransitionIndexResponse["images"]
+  >([]);
 
   // 一覧取得
   const indexApi = async (loadingCount: number) => {
@@ -43,6 +49,18 @@ export default function Page() {
     setImages([]);
     indexApi(0);
   }, [searchTags]);
+
+  useEffect(() => {
+    if (selectedImage) {
+      const transitionApi = async () => {
+        const response = await TransitionIndex({
+          imageId: selectedImage.id,
+        });
+        setTransitionImage(response.images);
+      };
+      transitionApi();
+    }
+  }, [selectedImage]);
 
   return (
     <>
@@ -82,8 +100,8 @@ export default function Page() {
         </div>
 
         {selectedImage && (
-          <>
-            <div className="relative w-[calc(100%+450px)] h-[calc(100vh-80px)] overflow-y-scroll bg-white text-black p-5 rounded-xl">
+          <div className="relative !w-[800px] bg-white text-black rounded-xl">
+            <div className="h-[calc(100vh-80px)] overflow-y-scroll no-scrollbar p-5">
               <Image
                 unoptimized={true}
                 className="w-full h-auto rounded-lg"
@@ -104,7 +122,7 @@ export default function Page() {
               </div>
 
               <button
-                className="w-full bg-black text-white font-bold px-8 py-2 rounded-lg mb-5 ring-black hover:bg-white hover:ring-2 hover:text-black transition duration-700"
+                className="w-full bg-black text-white font-bold px-8 py-4 rounded-lg mb-5 ring-black hover:bg-white hover:ring-2 hover:text-black transition duration-700"
                 onClick={() => {
                   setIsOpenModal(true);
                 }}
@@ -112,12 +130,34 @@ export default function Page() {
                 マイライブラリに追加
               </button>
 
-              <button
-                className="absolute top-10 right-10 w-10 h-10 bg-black text-white rounded-full flex items-center justify-center border-2 border-white"
-                onClick={() => setSelectedImage(null)}
+              <Masonry
+                breakpointCols={2}
+                className="flex gap-2"
+                columnClassName="pb-2"
               >
-                <CloseIcon />
-              </button>
+                {transitionImage.map((image) => (
+                  <div className="relative group" key={image.id}>
+                    <Image
+                      unoptimized={true}
+                      className="!w-full !h-auto mb-2 rounded-lg"
+                      src={image.url}
+                      alt={image.tags.join(", ")}
+                      width={100}
+                      height={100}
+                    />
+                    <div
+                      className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity"
+                      onClick={() => {
+                        TransitionStore({
+                          sourceImageId: selectedImage.id,
+                          destinationImageId: image.id,
+                        });
+                        setSelectedImage(image);
+                      }}
+                    />
+                  </div>
+                ))}
+              </Masonry>
             </div>
 
             {isOpenModal && (
@@ -127,7 +167,14 @@ export default function Page() {
                 setIsOpenModal={setIsOpenModal}
               />
             )}
-          </>
+
+            <button
+              className="absolute top-10 right-10 w-10 h-10 bg-black text-white rounded-full flex items-center justify-center border-2 border-white"
+              onClick={() => setSelectedImage(null)}
+            >
+              <CloseIcon />
+            </button>
+          </div>
         )}
       </div>
 
