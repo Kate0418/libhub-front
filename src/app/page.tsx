@@ -1,12 +1,14 @@
 "use client";
 
 import { ImageIndex, ImageIndexResponse } from "@/api/ImageIndex";
+import { ImageView } from "@/api/ImageView";
 import {
   TransitionIndex,
   TransitionIndexResponse,
 } from "@/api/TransitionIndex";
 import { TransitionStore } from "@/api/TransitionStore";
 import { AddLibraryModal } from "@/components/AddLibraryModal";
+import { Button } from "@/components/Button";
 import { CloseIcon } from "@/components/icons/CloseIcon";
 import { NavigateButtons } from "@/components/NavigateButtons";
 import { useSearchTags } from "@/SearchTagsProvider";
@@ -46,6 +48,7 @@ export default function Page() {
   };
 
   useEffect(() => {
+    setSelectedImage(null);
     setImages([]);
     indexApi(0);
   }, [searchTags]);
@@ -65,7 +68,7 @@ export default function Page() {
   return (
     <>
       <div className="flex gap-2 px-10">
-        <div className="pt-2 pb-24 relative overflow-y-scroll h-screen">
+        <div className="pt-2 pb-24 relative overflow-y-scroll h-screen w-auto">
           {/* <InfiniteScroll
           dataLength={images.length}
           next={() => {}}
@@ -90,6 +93,7 @@ export default function Page() {
                 <div
                   className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity"
                   onClick={() => {
+                    ImageView({ imageId: image.id });
                     setSelectedImage(image);
                   }}
                 />
@@ -100,11 +104,11 @@ export default function Page() {
         </div>
 
         {selectedImage && (
-          <div className="relative !w-[800px] bg-white text-black rounded-xl">
+          <div className="relative bg-white text-black rounded-xl">
             <div className="h-[calc(100vh-80px)] overflow-y-scroll no-scrollbar p-5">
               <Image
                 unoptimized={true}
-                className="w-full h-auto rounded-lg"
+                className="w-[500px] h-auto rounded-lg"
                 src={selectedImage.url}
                 alt={selectedImage.tags.join(", ")}
                 width={100}
@@ -169,7 +173,7 @@ export default function Page() {
             )}
 
             <button
-              className="absolute top-10 right-10 w-10 h-10 bg-black text-white rounded-full flex items-center justify-center border-2 border-white"
+              className="absolute top-5 right-5 w-10 h-10 bg-black text-white rounded-full flex items-center justify-center border-2 border-white"
               onClick={() => setSelectedImage(null)}
             >
               <CloseIcon />
@@ -180,7 +184,7 @@ export default function Page() {
 
       <div
         className={`fixed bottom-10 right-24 ${
-          selectedImage ? "right-[500px]" : ""
+          selectedImage ? "right-[480px]" : ""
         }`}
       >
         <NavigateButtons />

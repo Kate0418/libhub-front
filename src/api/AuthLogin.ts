@@ -31,7 +31,7 @@ export async function AuthLogin({
       return response.data;
     })
     .catch((error: AxiosError<AuthLoginErrorResponse>) => {
-      console.log(error);
+      console.warn(error);
       return {
         success: false,
         messages: error.response?.data.messages || ["エラーが発生しました"],

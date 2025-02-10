@@ -1,9 +1,10 @@
 "use client";
 
 import { LibraryIndex, LibraryIndexResponse } from "@/api/LibraryIndex";
-import { AddLibraryModal } from "@/components/AddLibraryModal";
-import { BookMarkHeartIcon } from "@/components/icons/BookMarkHeartIcon";
+import { DeleteIcon } from "@/components/icons/DeleteIcon";
+import { SettingIcon } from "@/components/icons/SettingIcon";
 import { NavigateButtons } from "@/components/NavigateButtons";
+import { UpdateLibraryModal } from "@/components/UpdateLibraryModal";
 import { useSearchTags } from "@/SearchTagsProvider";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -66,14 +67,18 @@ export default function Page() {
                 width={100}
                 height={100}
               />
-              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity">
+              <div className="absolute inset-0 bg-black opacity-0 group-hover:opacity-50 transition-opacity" />
+              <div className="absolute top-5 right-5 flex gap-2 text-white opacity-0 group-hover:opacity-100 transition-opacity">
                 <button
                   onClick={() => {
                     setSelectedImage(image);
                     setIsOpenModal(true);
                   }}
                 >
-                  <BookMarkHeartIcon />
+                  <SettingIcon />
+                </button>
+                <button>
+                  <DeleteIcon />
                 </button>
               </div>
             </div>
@@ -86,13 +91,13 @@ export default function Page() {
         <NavigateButtons />
       </div>
 
-      {/* {isOpenModal && selectedImage && (
-        <AddLibraryModal
+      {isOpenModal && selectedImage && (
+        <UpdateLibraryModal
           selectedImage={selectedImage}
           setSelectedImage={setSelectedImage}
           setIsOpenModal={setIsOpenModal}
         />
-      )} */}
+      )}
     </>
   );
 }

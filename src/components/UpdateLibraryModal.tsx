@@ -10,7 +10,7 @@ import { LibraryStore } from "@/api/LibraryStore";
 import { useRouter } from "next/navigation";
 import { Button } from "./Button";
 
-export interface AddLibraryModalProps {
+export interface UpdateLibraryModalProps {
   selectedImage: ImageIndexResponse["images"][number];
   setSelectedImage: React.Dispatch<
     React.SetStateAction<ImageIndexResponse["images"][number] | null>
@@ -18,11 +18,11 @@ export interface AddLibraryModalProps {
   setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export function AddLibraryModal({
+export function UpdateLibraryModal({
   selectedImage,
   setSelectedImage,
   setIsOpenModal,
-}: AddLibraryModalProps) {
+}: UpdateLibraryModalProps) {
   const [allTags, setAllTags] = useState<SelectItem[]>([]);
   useEffect(() => {
     const selectApi = async () => {
@@ -118,7 +118,7 @@ export function AddLibraryModal({
                 }
               }}
             >
-              マイラリブラリに追加
+              保存
             </Button>
           </div>
         </div>

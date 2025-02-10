@@ -42,7 +42,7 @@ export default function Page() {
 
   return (
     <div className="flex flex-col items-end overflow-y-auto max-h-screen no-scrollbar">
-      <div className="pt-16 flex justify-center gap-8">
+      <div className="pt-16 flex justify-center gap-8 pb-5">
         <div>
           <input
             className="hidden"

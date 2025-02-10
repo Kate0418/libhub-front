@@ -16,18 +16,22 @@ export function Header() {
   const [allTags, setAllTags] = useState<SelectItem[]>([]);
   useEffect(() => {
     const selectApi = async () => {
-        const response = isLibraryPage
-            ? await LibraryTags()
-            : await TagSelect();
-        setAllTags(response.tags);
-      };
-      selectApi();
+      const response = isLibraryPage ? await LibraryTags() : await TagSelect();
+      setAllTags(response.tags);
+    };
+    selectApi();
   }, []);
 
   return (
     <div>
       <div className="h-16 pl-3 flex items-center gap-8 fixed top-0 left-0 z-20">
-        <Image src="/logo.png" alt="logo" width={200} height={200} />
+        <Image
+          src="/logo.png"
+          alt="logo"
+          width={200}
+          height={200}
+          onClick={() => router.push("/")}
+        />
 
         <div className="border-2 border-white w-[800px] rounded-lg px-2 bg-black">
           <Select
