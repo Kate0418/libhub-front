@@ -8,7 +8,6 @@ import {
 } from "@/api/TransitionIndex";
 import { TransitionStore } from "@/api/TransitionStore";
 import { AddLibraryModal } from "@/components/AddLibraryModal";
-import { Button } from "@/components/Button";
 import { CloseIcon } from "@/components/icons/CloseIcon";
 import { NavigateButtons } from "@/components/NavigateButtons";
 import { useSearchTags } from "@/SearchTagsProvider";
@@ -111,8 +110,8 @@ export default function Page() {
                 className="w-[500px] h-auto rounded-lg"
                 src={selectedImage.url}
                 alt={selectedImage.tags.join(", ")}
-                width={100}
-                height={100}
+                width={200}
+                height={200}
               />
               <div className="flex py-2 overflow-x-auto max-w-[400px] no-scrollbar">
                 {selectedImage.tags.map((tag, index) => (

@@ -4,4 +4,4 @@ services:
     volumes:
       - .:/front
     ports:
-      - 3002:3000
+      - 3003:3000
